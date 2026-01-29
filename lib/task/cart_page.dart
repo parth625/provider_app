@@ -63,7 +63,7 @@ class CartPage extends StatelessWidget {
                 );
               },
             )
-          : Center(child: Text('No items added to cart.')),
+          : Center(child: Text('Card is empty.', style: TextStyle(fontSize: 22),), ),
     );
   }
 }
