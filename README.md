@@ -10,3 +10,7 @@ A new Flutter project.
 - Create Consumer where we want to update portion of UI
 - use context.read() for listening changes
 
+
+## Change App Name
+- Android -> app -> main 
+

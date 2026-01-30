@@ -7,7 +7,8 @@ class CartProvider extends ChangeNotifier {
 
   List<Product> getCartItems() => _cartItems;
 
-  int getLength() => _cartItems.length;
+  /// Total items added to cart
+  int getTotalCartItem() => _cartItems.length;
 
   /// Add product to cart
   void addToCart(Product product) {
@@ -19,5 +20,10 @@ class CartProvider extends ChangeNotifier {
   void removeFromCart(Product product) {
     _cartItems.remove(product);
     notifyListeners();
+  }
+
+  /// Check if item already added to cart
+  bool isItemExists(String productID){
+    return _cartItems.any((item) => productID == item.id);
   }
 }

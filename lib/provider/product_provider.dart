@@ -14,7 +14,7 @@ class ProductProvider extends ChangeNotifier{
     Product(
       id: '2',
       name: "Samsung A55",
-      price: 700000,
+      price: 45999,
       image: 'assets/images/samsung.jpg',
     ),
     Product(

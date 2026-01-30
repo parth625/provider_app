@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_app/provider/cart_provider.dart';
@@ -13,57 +15,85 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Your Cart')),
       body: cartItems.isNotEmpty
-          ? ListView.builder(
-              itemCount: cartItems.length,
-              itemBuilder: (context, index) {
-                var cartItem = cartItems[index];
-                return Card(
-                  elevation: 3,
-                  color: Colors.white,
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        cartItem.image,
-                        height: 200,
-                        width: 200,
-                        fit: BoxFit.contain,
-                      ),
-                      Column(
-                        crossAxisAlignment: .start,
+          ? Stack(
+              alignment: AlignmentGeometry.center,
+              children: [
+                ListView.builder(
+                  itemCount: cartItems.length,
+                  itemBuilder: (context, index) {
+                    var cartItem = cartItems[index];
+                    return Card(
+                      elevation: 3,
+                      color: Colors.white,
+                      child: Row(
                         children: [
-                          Text(
-                            cartItem.name,
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          Image.asset(
+                            cartItem.image,
+                            height: 200,
+                            width: 200,
+                            fit: BoxFit.contain,
                           ),
-                          Text(
-                            '₹ ${cartItem.price.toStringAsFixed(0)}',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              context.read<CartProvider>().removeFromCart(
-                                cartItem,
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red[300],
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
+                          Column(
+                            crossAxisAlignment: .start,
+                            children: [
+                              Text(
+                                cartItem.name,
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                            child: Text('Remove'),
+                              Text(
+                                '₹ ${cartItem.price.toStringAsFixed(0)}',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  log('${cartItem.name} removed from cart');
+                                  context.read<CartProvider>().removeFromCart(
+                                    cartItem,
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red[300],
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                child: Text('Remove'),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
+                    );
+                  },
+                ),
+                Positioned(
+                  bottom: 20,
+                  child: Container(
+                    alignment: AlignmentGeometry.center,
+                    height: 50,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.blue[300],
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Consumer(
+                      builder: (ctx, _, _) {
+                        return Text(
+                          'Total cart items: ${ctx.watch<CartProvider>().getTotalCartItem()}',
+                          style: TextStyle(fontSize: 22),
+                        );
+                      },
+                    ),
                   ),
-                );
-              },
+                ),
+                ],
             )
-          : Center(child: Text('Card is empty.', style: TextStyle(fontSize: 22),), ),
+          : Center(
+              child: Text('Cart is empty.', style: TextStyle(fontSize: 20)),
+            ),
     );
   }
 }

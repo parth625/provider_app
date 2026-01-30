@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import '../provider/list_map_provider.dart';
 
 class AddItemPage extends StatelessWidget {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController mobileController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController mobileController = TextEditingController();
 
   AddItemPage({super.key});
 

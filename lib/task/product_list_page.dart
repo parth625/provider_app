@@ -11,7 +11,7 @@ class ProductListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log('Product build method');
+    print('Product build method');
     var products = context.read<ProductProvider>().getProductList();
 
     return Scaffold(
@@ -34,7 +34,7 @@ class ProductListPage extends StatelessWidget {
                 builder: (_, cart, _) {
                   return Positioned(
                     right: 5,
-                    child: Text('${cart.getLength()}'),
+                    child: Text('${cart.getTotalCartItem()}'),
                   );
                 },
               ),
@@ -47,9 +47,7 @@ class ProductListPage extends StatelessWidget {
         itemCount: products.length,
         itemBuilder: (context, index) {
           var product = products[index];
-          bool exists = context.read<CartProvider>().getCartItems().any(
-                (item) => item.id == product.id,
-          );
+
           return Card(
             elevation: 3,
             color: Colors.white,
@@ -61,6 +59,7 @@ class ProductListPage extends StatelessWidget {
                   width: 200,
                   fit: BoxFit.contain,
                 ),
+                SizedBox(width: 10,),
                 Column(
                   crossAxisAlignment: .start,
                   children: [
@@ -71,20 +70,30 @@ class ProductListPage extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Text('₹ ${product.price.toStringAsFixed(0)}', style: TextStyle(fontSize: 18)),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (!exists) {
-                          context.read<CartProvider>().addToCart(product);
-                          log('${product.name} added');
-                        }
+                    Text('₹ ${product.price}', style: TextStyle(fontSize: 18)),
+                    Consumer(
+                      builder: (ctx, _, _) {
+                        bool isExists = ctx.watch<CartProvider>().isItemExists(
+                          product.id,
+                        );
+                        return ElevatedButton(
+                          onPressed: () {
+                            if (!isExists) {
+                              ctx.read<CartProvider>().addToCart(product);
+
+                              log('${product.name} added');
+
+                              // context.read<CartProvider>().increaseLength();
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          child: Text(isExists ? 'Added' : 'Add to Cart'),
+                        );
                       },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: Text(exists ? 'Added' : 'Add to Cart'),
                     ),
                   ],
                 ),
