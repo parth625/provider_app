@@ -39,7 +39,7 @@ class CartPage extends StatelessWidget {
                               Text(
                                 cartItem.name,
                                 style: TextStyle(
-                                  fontSize: 22,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -89,7 +89,7 @@ class CartPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                ],
+              ],
             )
           : Center(
               child: Text('Cart is empty.', style: TextStyle(fontSize: 20)),

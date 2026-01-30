@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider_app/task/product_list_page.dart';
 
@@ -25,12 +24,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: MediaQuery.sizeOf(context).height,
-        width: MediaQuery.sizeOf(context).width,
-        color: Colors.blue,
-        child: Center(
-          child: Image.asset('assets/images/ic_launcher.png'),
+      body: Center(
+        child: Image.asset(
+          'assets/images/ic_launcher.png',
+          height: 100,
+          width: 100,
+          fit: BoxFit.contain,
         ),
       ),
     );
